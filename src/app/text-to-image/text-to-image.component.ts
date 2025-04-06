@@ -27,7 +27,7 @@ export class TextToImageComponent {
   ) {
     this.imageForm = this.fb.group({
       prompt: ['', [Validators.required]],
-      negative_prompt: ['blurry, low quality, extra limbs'],
+      negative_prompt: ['blurry, low quality, extra limbs,poor quality'],
       aspect_ratios_selection: ['763*1344'],
       performance_selection: ['Speed'],
       num_inference_steps: [30],
@@ -65,7 +65,7 @@ export class TextToImageComponent {
         reader.readAsDataURL(response);
       },
       error: (error) => {
-        this.errorMessage = 'Failed to generate image. Please try again.';
+        this.errorMessage = 'Failed to generate images. Please try again.';
       }
     });
   }
