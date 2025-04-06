@@ -13,6 +13,7 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./text-to-image.component.css']
 })
 export class TextToImageComponent {
+
   imageForm: FormGroup;
   generatedImage: string | null = null;
   isLoading = false;
@@ -64,7 +65,6 @@ export class TextToImageComponent {
         reader.readAsDataURL(response);
       },
       error: (error) => {
-        console.error('Error generating image:', error);
         this.errorMessage = 'Failed to generate image. Please try again.';
       }
     });
@@ -72,7 +72,6 @@ export class TextToImageComponent {
 
   downloadImage() {
     if (!this.generatedImage) return;
-
     const link = document.createElement('a');
     link.href = this.generatedImage;
     link.download = `generated-image-${new Date().getTime()}.png`;
