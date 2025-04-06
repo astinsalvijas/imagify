@@ -1,15 +1,65 @@
 /* text-to-image.component.scss */
 .container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
-h1 {
-  color: #333;
-  text-align: center;
-  margin-bottom: 30px;
+.two-column-layout {
+  display: flex;
+  gap: 30px;
+  min-height: 100vh;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+}
+
+/* Left Column: Prompt Section */
+.prompt-section {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 12px;
+  }
+}
+
+/* Right Column: Result Section */
+.result-section {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 12px;
+  }
+
+  .initial-state {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+  }
 }
 
 .form-group {
@@ -75,19 +125,12 @@ textarea, input, select {
   }
 }
 
-.result-container {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-}
-
 .loading {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
 
   .spinner {
     width: 50px;
@@ -109,6 +152,10 @@ textarea, input, select {
 }
 
 .error-message {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   background-color: #ffebee;
   color: #d32f2f;
@@ -117,22 +164,24 @@ textarea, input, select {
 }
 
 .image-result {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  h2 {
-    margin-bottom: 20px;
-  }
+  justify-content: space-between;
 
   .image-wrapper {
-    max-width: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     img {
       max-width: 100%;
-      display: block;
+      max-height: 70vh;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      object-fit: contain;
     }
   }
 
@@ -140,14 +189,23 @@ textarea, input, select {
     background-color: #34a853;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
     &:hover {
       background-color: #2e8e46;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
     }
   }
 }

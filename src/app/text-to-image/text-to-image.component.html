@@ -1,0 +1,78 @@
+<!-- text-to-image.component.html -->
+<div class="container two-column-layout">
+  <!-- Left Column: Prompt Section -->
+  <div class="prompt-section">
+    <h2>Image Generator</h2>
+
+    <form [formGroup]="imageForm" (ngSubmit)="generateImage()">
+      <div class="form-group">
+        <label for="prompt">Prompt</label>
+        <textarea
+          id="prompt"
+          formControlName="prompt"
+          rows="5"
+          placeholder="Describe the image you want to generate..."
+          required></textarea>
+        <div class="error" *ngIf="imageForm.get('prompt')?.invalid && imageForm.get('prompt')?.touched">
+          A prompt is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="negative_prompt">Negative Prompt</label>
+        <textarea
+          id="negative_prompt"
+          formControlName="negative_prompt"
+          rows="2"
+          placeholder="Elements to exclude from the image..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <div >
+          <label for="aspect_ratios_selection">Aspect Ratio</label>
+          <select id="aspect_ratios_selection" formControlName="aspect_ratios_selection">
+            <option *ngFor="let ratio of aspectRatioOptions" [value]="ratio">{{ ratio }}</option>
+          </select>
+        </div>
+      </div>
+
+
+
+      <button type="submit" [disabled]="imageForm.invalid || isLoading" class="generate-btn">
+        <span *ngIf="!isLoading">Generate Image</span>
+        <span *ngIf="isLoading">Generating...</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Right Column: Image Result Section -->
+  <div class="result-section">
+    <h2>Generated Image</h2>
+
+    <!-- Initial state -->
+    <div *ngIf="!isLoading && !generatedImage && !errorMessage" class="initial-state">
+      <p>Fill out the form and click "Generate Image" to create an image.</p>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Generating your image...</p>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Image result -->
+    <div *ngIf="generatedImage" class="image-result">
+      <div class="image-wrapper">
+        <img [src]="generatedImage" alt="Generated image">
+      </div>
+      <button (click)="downloadImage()" class="download-btn">
+        <span>Download Image</span>
+      </button>
+    </div>
+  </div>
+</div>
