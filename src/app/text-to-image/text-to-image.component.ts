@@ -45,24 +45,37 @@ export class TextToImageComponent {
     const payload = this.imageForm.value;
     const apiUrl = 'http://192.168.1.6:7860/v1/generation/text-to-image';
 
-    this.http.post(apiUrl, payload, {
-      headers: { 'Content-Type': 'application/json' },
-      responseType: 'blob'
+    this.http.post<any[]>(apiUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
     }).pipe(
       finalize(() => this.isLoading = false)
     ).subscribe({
-      next: (blob: Blob) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.generatedImage = reader.result as string;
-        };
-        reader.readAsDataURL(blob);
+      next: (response) => {
+        if (response && response.length > 0 && response[0].url) {
+          const imageUrl = response[0].url;
+
+          // Option 1: Just use the URL directly
+          this.generatedImage = imageUrl;
+
+          // Option 2: If you need a DataURL
+          // this.http.get(imageUrl, { responseType: 'blob' }).subscribe(blob => {
+          //   const reader = new FileReader();
+          //   reader.onload = () => {
+          //     this.generatedImage = reader.result as string;
+          //   };
+          //   reader.readAsDataURL(blob);
+          // });
+
+        } else {
+          this.errorMessage = 'Image URL not found in response.';
+        }
       },
       error: () => {
         this.errorMessage = 'Failed to generate image. Please try again.';
       }
     });
   }
+
 
 
   downloadImage() {
