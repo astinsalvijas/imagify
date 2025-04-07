@@ -36,9 +36,7 @@ export class TextToImageComponent {
   }
 
   generateImage() {
-    if (this.imageForm.invalid) {
-      return;
-    }
+    if (this.imageForm.invalid) return;
 
     this.isLoading = true;
     this.errorMessage = null;
@@ -47,28 +45,25 @@ export class TextToImageComponent {
     const payload = this.imageForm.value;
     const apiUrl = 'http://192.168.1.6:7860/v1/generation/text-to-image';
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
     this.http.post(apiUrl, payload, {
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       responseType: 'blob'
     }).pipe(
       finalize(() => this.isLoading = false)
     ).subscribe({
-      next: (response: Blob) => {
+      next: (blob: Blob) => {
         const reader = new FileReader();
         reader.onload = () => {
           this.generatedImage = reader.result as string;
         };
-        reader.readAsDataURL(response);
+        reader.readAsDataURL(blob);
       },
-      error: (error) => {
-        this.errorMessage = 'Failed to generate images. Please try again.';
+      error: () => {
+        this.errorMessage = 'Failed to generate image. Please try again.';
       }
     });
   }
+
 
   downloadImage() {
     if (!this.generatedImage) return;
