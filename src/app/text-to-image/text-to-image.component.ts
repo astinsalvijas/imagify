@@ -43,7 +43,7 @@ export class TextToImageComponent {
     this.generatedImage = null;
 
     const payload = this.imageForm.value;
-    const apiUrl = 'http://192.168.1.6:7860/v1/generation/text-to-image';
+    const apiUrl = 'https://192.168.1.6:7860/v1/generation/text-to-image';
 
     this.http.post<any[]>(apiUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
